@@ -25,7 +25,6 @@ community is not part of the paper and is not included here.
 ```
 ALS_CKG_Hypothesis_Testing.ipynb   the analysis notebook
 requirements.txt                   pinned Python dependencies
-prepare_release_graph.py           OPTIONAL helper to build a minimal, shareable graph pickle
 README.md                          this file
 ckg_louvain.pkl                    the graph input (you add this; see "Data")
 ```
@@ -38,11 +37,6 @@ The notebook needs exactly **one** pickle file: the final CKG as a NetworkX grap
 looks for `ckg_louvain.pkl` in the working directory. Edit `PKL_GRAPH` in Step 1 if your file name or
 location differs.
 
-You do **not** need to release any intermediate graphs (for example earlier "raw" versions at
-different edge thresholds). Only the final graph used for the reported analysis is required.
-
-### What the graph pickle must contain
-
 A pickled `networkx` graph (`Graph` or `DiGraph`) where:
 
 - **Nodes** are the term strings (for example `NfL`, `C9orf72`, `APOE`).
@@ -54,21 +48,6 @@ A pickled `networkx` graph (`Graph` or `DiGraph`) where:
   `w_norm`, `edge_confidence`, `confidence`, or `tcvs` and auto-detects which is present.
 
 Nothing else is read by the analysis.
-
-### Protecting your other work (recommended)
-
-The analysis never uses node embeddings, source provenance, raw text, or the TCVS component scores.
-You can strip all of those before publishing, which keeps the file small and keeps that work private.
-`prepare_release_graph.py` does this for you: it loads your full graph, keeps only node names, the
-`community` (and optional `category`) attribute, and a single numeric `weight` per edge, and writes a
-clean `ckg_louvain.pkl`. Run it once on the machine that holds your full graph:
-
-```bash
-python prepare_release_graph.py
-```
-
-Tip: add your full graph and the generated figures and CSVs to `.gitignore` so only the minimal,
-sanitized pickle is committed.
 
 ## Environment setup
 
@@ -140,9 +119,6 @@ hypothesis-generating rather than confirmatory. See the paper for the full discu
 
 ## Citation
 
-If you use this code, please cite the paper. (Add the final citation and DOI here once available.)
+If you use this code, please cite the paper. (This code is related to my paper in ARTIIS 2026 https://www.artiis.org/.)
 
-## License
 
-Add a license of your choice. A common pairing is MIT for the code and CC BY 4.0 for the released
-graph data. State clearly which license applies to the notebook and which applies to `ckg_louvain.pkl`.
